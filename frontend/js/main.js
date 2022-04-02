@@ -1,3 +1,5 @@
+import * as THREE from 'three';
+
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
@@ -11,6 +13,27 @@ const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
 
 camera.position.z = 5;
+
+const bones = [];
+
+const shoulder = new THREE.Bone();
+const elbow = new THREE.Bone();
+const hand = new THREE.Bone();
+
+shoulder.add(elbow);
+elbow.add(hand);
+
+bones.push(shoulder);
+bones.push(elbow);
+bones.push(hand);
+
+shoulder.position.y = -5;
+elbow.position.y = 0;
+hand.position.y = 5;
+
+const armSkeleton = new THREE.Skeleton(bones);
+
+scene.add(armSkeleton)
 
 function animate() {
     requestAnimationFrame(animate);
