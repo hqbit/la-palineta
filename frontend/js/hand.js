@@ -8,7 +8,7 @@ export class Hand {
     x = 0;
     y = 0;
 
-    fingersUp = [false, false, false, false, false];
+    fingersUp = [true, true, true, true, true];
 
     _animationsDown = [FINGER_1_DOWN, FINGER_2_DOWN, FINGER_3_DOWN, FINGER_4_DOWN, FINGER_5_DOWN];
     _animationsUp = [FINGER_1_UP, FINGER_2_UP, FINGER_3_UP, FINGER_4_UP, FINGER_5_UP];
@@ -54,6 +54,18 @@ export class Hand {
         this._animate();
     }
 
+    setFingersPosition(fingers) {
+        for (let i = 0; i < fingers.length; i++) {
+            if (fingers[i] && !this.fingersUp[i]) {
+                this.fingerUp(i);
+                console.log("finger up");
+            } else if (!fingers[i] && this.fingersUp[i]) {
+                this.fingerDown(i);
+                console.log("finger down");
+            }
+        }
+        this.fingersUp = fingers;
+    }
 
     fingerDown(finger) {
         this.fingersUp[finger] = false;
@@ -80,7 +92,6 @@ export class Hand {
     }
 
     update(mixerUpdateDelta, name) {
-        console.log('update ' + name, this.x, this.y);
         if (this._mixer) {
             this._mixer.update(mixerUpdateDelta);
         }
@@ -93,12 +104,11 @@ export class Hand {
             action.clampWhenFinished = true;
             action.loop = THREE.LoopOnce;
             action.play();
-            console.log(this.side, clip.name)
         }
     }
 
     setPosition(x, y) {
-        this.hand.position.x = this.x = 1-x;
+        this.hand.position.x = this.x = 1 - x;
         this.hand.position.z = this.y = y;
     }
 }

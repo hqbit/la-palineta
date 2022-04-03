@@ -110,12 +110,17 @@ window.onbeforeunload = function () {
 export const sendToServer = (leftHand, rightHand) => {
   user.hands.leftHandPos.x = leftHand.x;
   user.hands.leftHandPos.y = leftHand.y;
+  user.hands.leftHandFingers = leftHand.fingersUp;
 
   user.hands.rightHandPos.x = rightHand.x;
   user.hands.rightHandPos.y = rightHand.y;
+  user.hands.rightHandFingers = rightHand.fingersUp;
 };
 
 const updateFromServer = (leftHand, rightHand) => {
   leftHand.setPosition(opponent.hands.leftHandPos.x, opponent.hands.leftHandPos.y)
+  leftHand.setFingersPosition(opponent.hands.leftHandFingers);
+
   rightHand.setPosition(opponent.hands.rightHandPos.x, opponent.hands.rightHandPos.y)
+  rightHand.setFingersPosition(opponent.hands.rightHandFingers);
 };

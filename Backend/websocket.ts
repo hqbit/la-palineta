@@ -160,8 +160,10 @@ function sendMovement(msg: IMessage) {
   const originUser = users.find((x) => x.id === msg.id);
 
   if (targetUser) {
-    originUser.hands.leftHandPos = (msg.message as IHands).leftHandPos;
-    originUser.hands.rightHandPos = (msg.message as IHands).rightHandPos;
+    if (originUser?.hands) {
+      originUser.hands.leftHandPos = (msg.message as IHands).leftHandPos;
+      originUser.hands.rightHandPos = (msg.message as IHands).rightHandPos;
+    }
 
     const response: IMessage = {
       type: typeEnum.MOVEMENTRESPONSE,
