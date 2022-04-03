@@ -1,3 +1,4 @@
+import {leftHandOpponent, rightHandOpponent} from "./main.js";
 // const socket = new WebSocket("wss://ws-vxax7qbyya-oa.a.run.app");
 const socket = new WebSocket("ws://localhost:8999");
 
@@ -68,7 +69,7 @@ socket.onmessage = function (event) {
       setInterval(() => {
         const msg = IMessage(typeEnum.MOVEMENT, user.hands, user.id);
         socket.send(JSON.stringify(msg));
-      }, 1000);
+      }, 20);
       break;
 
     case typeEnum.MOVEMENTRESPONSE:
@@ -76,6 +77,7 @@ socket.onmessage = function (event) {
         opponent.hands.events = msg.message.events;
         opponent.hands.leftHandPos = msg.message.leftHandPos;
         opponent.hands.rightHandPos = msg.message.rightHandPos;
+        updateFromServer(leftHandOpponent, rightHandOpponent);
       }
       break;
 
@@ -103,4 +105,17 @@ socket.onerror = function (error) {
 window.onbeforeunload = function () {
   const msg = IMessage(typeEnum.CLOSE, null, user.id);
   socket.send(JSON.stringify(msg));
+};
+
+export const sendToServer = (leftHand, rightHand) => {
+  user.hands.leftHandPos.x = leftHand.x;
+  user.hands.leftHandPos.y = leftHand.y;
+
+  user.hands.rightHandPos.x = rightHand.x;
+  user.hands.rightHandPos.y = rightHand.y;
+};
+
+const updateFromServer = (leftHand, rightHand) => {
+  leftHand.setPosition(opponent.hands.leftHandPos.x, opponent.hands.leftHandPos.y)
+  rightHand.setPosition(opponent.hands.rightHandPos.x, opponent.hands.rightHandPos.y)
 };

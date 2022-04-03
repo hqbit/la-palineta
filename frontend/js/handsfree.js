@@ -168,7 +168,6 @@ export const handsFreeController = (leftHand, rightHand) => {
             const xPos = handsfree.data.hands['landmarks'][0][WRIST_POSITION].x;
             const yPos = handsfree.data.hands['landmarks'][0][WRIST_POSITION].y;
 
-            console.log('left', xPos, yPos);
             leftHand.setPosition(xPos, yPos);
         }
 
@@ -179,7 +178,6 @@ export const handsFreeController = (leftHand, rightHand) => {
 
             const xPos = handsfree.data.hands['landmarks'][1][WRIST_POSITION].x;
             const yPos = handsfree.data.hands['landmarks'][1][WRIST_POSITION].y;
-            console.log('right', xPos, yPos);
             rightHand.setPosition(xPos, yPos);
         }
     }

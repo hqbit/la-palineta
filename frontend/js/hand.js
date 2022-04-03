@@ -79,7 +79,8 @@ export class Hand {
         this.renderAction(clip, this._animationsUp[finger]);
     }
 
-    update(mixerUpdateDelta) {
+    update(mixerUpdateDelta, name) {
+        console.log('update ' + name, this.x, this.y);
         if (this._mixer) {
             this._mixer.update(mixerUpdateDelta);
         }

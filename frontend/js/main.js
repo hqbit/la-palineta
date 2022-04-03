@@ -1,6 +1,7 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.121.1/build/three.module.js";
 import {Hand} from "./hand.js";
 import {handsFreeController} from "./handsfree.js";
+import {sendToServer} from "./client.js";
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -43,15 +44,16 @@ const animate = () => {
 
     const mixerUpdateDelta = clock.getDelta();
 
-    leftHandPlayer.update(mixerUpdateDelta);
-    rightHandPlayer.update(mixerUpdateDelta);
+    leftHandPlayer.update(mixerUpdateDelta, 'leftHandPlayer');
+    rightHandPlayer.update(mixerUpdateDelta, 'rightHandPlayer');
 
-    leftHandOpponent.update(mixerUpdateDelta);
-    rightHandOpponent.update(mixerUpdateDelta);
-
-    renderer.render(scene, camera);
+    leftHandOpponent.update(mixerUpdateDelta, 'leftHandOpponent');
+    rightHandOpponent.update(mixerUpdateDelta, 'rightHandOpponent');
 
     handsFreeController(leftHandPlayer, rightHandPlayer);
+    sendToServer(leftHandPlayer, rightHandPlayer);
+
+    renderer.render(scene, camera);
 };
 
 setUpScene()
@@ -59,8 +61,8 @@ setUpScene()
 const leftHandPlayer = new Hand('LEFT', -0.5, 0.5, animate, scene);
 const rightHandPlayer = new Hand('RIGHT', 0.5, 0.5, animate, scene);
 
-const leftHandOpponent = new Hand('LEFT', 0.7, 0.2, animate, scene, true);
-const rightHandOpponent = new Hand('RIGHT', 0.3, 0.2, animate, scene, true);
+export const leftHandOpponent = new Hand('LEFT', 0.7, 0.2, animate, scene, true);
+export const rightHandOpponent = new Hand('RIGHT', 0.3, 0.2, animate, scene, true);
 
 document.addEventListener('keydown', function (event) {
     switch (event.key) {
