@@ -113,6 +113,9 @@ export class Hand {
 
     setPosition(x, y) {
         this.hand.position.x = this.x = 1 - x;
-        this.hand.position.z = this.y = y;
+        if (this.rotated)
+            this.hand.position.z = this.y = y - 0.3;
+        else
+            this.hand.position.z = this.y = y;
     }
 }
