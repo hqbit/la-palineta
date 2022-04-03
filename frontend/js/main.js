@@ -9,11 +9,13 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 const loader = new GLTFLoader();
-let hand, skeleton, handMesh;
+let hand, skeleton, mixer, clock;
 
 const setUpScene = () => {
+    clock = new THREE.Clock();
+
     camera.position.y = 0.5;
-    camera.rotation.x =  -Math.PI / 2;
+    camera.rotation.x = -Math.PI / 2;
 
     scene.background = new THREE.Color(0xa0a0a0);
     scene.fog = new THREE.Fog(0xa0a0a0, 10, 50);
@@ -34,14 +36,15 @@ const setUpScene = () => {
     scene.add(dirLight);
 }
 
-function animate() {
+const animate = () => {
     requestAnimationFrame(animate);
 
+    const mixerUpdateDelta = clock.getDelta();
+    mixer.update(mixerUpdateDelta);
     renderer.render(scene, camera);
-}
+};
 
 setUpScene()
-animate();
 
 loader.load('../models/hand/left.glb', function (gltf) {
     hand = gltf.scene;
@@ -49,6 +52,20 @@ loader.load('../models/hand/left.glb', function (gltf) {
     scene.add(hand);
 
     skeleton = new THREE.SkeletonHelper(hand);
-    skeleton.visible = true;
+    skeleton.visible = false;
     scene.add(skeleton);
+
+    const animations = gltf.animations;
+    mixer = new THREE.AnimationMixer(hand);
+    console.log(animations)
+
+    let clip = animations[0];
+    let action = mixer.clipAction(clip);
+    action.play();
+
+    clip = animations[1];
+    action = mixer.clipAction(clip);
+    action.play();
+
+    animate();
 });
