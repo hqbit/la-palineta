@@ -1,22 +1,13 @@
 version: 2.1
 jobs:
-  create-docker-image-ws:
+  create-docker-images:
     machine: true
     steps:
       - checkout
       # Build 
       - run: docker build -f Dockerfile.ws . -t uncommon2022/ws
-      - run: docker tag uncommon2022/ws eu.gcr.io/uncommon2022/ws
-      - run:
-          name: "Is it built?"
-          command: "echo Docker built"
-      - run: docker images
-  create-docker-image-web:
-    machine: true
-    steps:
-      - checkout
-      # Build 
       - run: docker build -f Dockerfile.web . -t uncommon2022/web
+      - run: docker tag uncommon2022/ws eu.gcr.io/uncommon2022/ws
       - run: docker tag uncommon2022/web eu.gcr.io/uncommon2022/web
       - run:
           name: "Is it built?"
@@ -26,5 +17,4 @@ jobs:
 workflows:
   say-hello-workflow:
     jobs:
-      - create-docker-image-ws
-      - create-docker-image-web
+      - create-docker-images
