@@ -136,3 +136,22 @@ Dado que es online, no sera necesario realizar ninguna mecanica de paso de dedos
 
 punto 0 posicion
 */
+
+
+// Codigo para evitar que pete el programa si una mano no es visible o detectada
+if (data.hands) { // Solo entra si existen las manos
+    // Una mano
+    if(handsfree.data.hands.landmarksVisible[0]) {
+        // Solo entra si la mano es visible y por lo tanto existen los landmarks
+    }
+
+
+    // La otra mano
+    if(handsfree.data.hands.landmarksVisible[1]) {
+        // Solo entra si la mano es visible y por lo tanto existen los landmarks
+    }
+}
+
+
+
+// Quiza usar Listeners o Plugins si lo anterior no funciona
