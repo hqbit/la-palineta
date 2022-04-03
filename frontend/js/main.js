@@ -15,6 +15,8 @@ const setUpScene = () => {
     clock = new THREE.Clock();
 
     camera.position.y = 0.5;
+    camera.position.z = 0.5;
+    camera.position.x = 0.5;
     camera.rotation.x = -Math.PI / 2;
 
     scene.background = new THREE.Color(0xa0a0a0);
@@ -44,6 +46,9 @@ const animate = () => {
     leftHandPlayer.update(mixerUpdateDelta);
     rightHandPlayer.update(mixerUpdateDelta);
 
+    leftHandOpponent.update(mixerUpdateDelta);
+    rightHandOpponent.update(mixerUpdateDelta);
+
     renderer.render(scene, camera);
 
     handsFreeController(leftHandPlayer, rightHandPlayer);
@@ -51,9 +56,11 @@ const animate = () => {
 
 setUpScene()
 
-const leftHandPlayer = new Hand('LEFT', -0.2, 0.2, animate, scene);
-const rightHandPlayer = new Hand('RIGHT', 0.2, 0.2, animate, scene);
+const leftHandPlayer = new Hand('LEFT', -0.5, 0.5, animate, scene);
+const rightHandPlayer = new Hand('RIGHT', 0.5, 0.5, animate, scene);
 
+const leftHandOpponent = new Hand('LEFT', 0.7, 0.2, animate, scene, true);
+const rightHandOpponent = new Hand('RIGHT', 0.3, 0.2, animate, scene, true);
 
 document.addEventListener('keydown', function (event) {
     switch (event.key) {

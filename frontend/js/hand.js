@@ -17,12 +17,13 @@ export class Hand {
     _scene;
     hand;
 
-    constructor(side, x, y, animate, scene) {
+    constructor(side, x, y, animate, scene, rotated = false) {
         this.side = side;
         this.x = x;
         this.y = y;
         this._animate = animate;
         this._scene = scene;
+        this.rotated = rotated;
 
         loader.load('../models/hand/left.glb', this.loadModel.bind(this));
     }
@@ -32,6 +33,10 @@ export class Hand {
         this.hand.rotation.y = -Math.PI / 2;
         this.hand.position.x = this.x;
         this.hand.position.z = this.y;
+
+        if (this.rotated) {
+            this.hand.rotation.y = Math.PI / 2;
+        }
 
         if (this.side === "RIGHT") {
             this.hand.scale.z = -1;
@@ -89,5 +94,10 @@ export class Hand {
             action.play();
             console.log(this.side, clip.name)
         }
+    }
+
+    setPosition(x, y) {
+        this.hand.position.x = this.x = 1-x;
+        this.hand.position.z = this.y = y;
     }
 }

@@ -163,16 +163,27 @@ export const handsFreeController = (leftHand, rightHand) => {
         // Una mano
         if (handsfree.data.hands.landmarksVisible[0]) {
             // Solo entra si la mano es visible y por lo tanto existen los landmarks
-            console.log(handsfree.data.hands['landmarks'])
             update(handsfree.data.hands['landmarks'][0], leftHand);
+
+            const xPos = handsfree.data.hands['landmarks'][0][WRIST_POSITION].x;
+            const yPos = handsfree.data.hands['landmarks'][0][WRIST_POSITION].y;
+
+            console.log('left', xPos, yPos);
+            leftHand.setPosition(xPos, yPos);
         }
 
         // La otra mano
         if (handsfree.data.hands.landmarksVisible[1]) {
             // Solo entra si la mano es visible y por lo tanto existen los landmarks
             update(handsfree.data.hands['landmarks'][1], rightHand);
+
+            const xPos = handsfree.data.hands['landmarks'][1][WRIST_POSITION].x;
+            const yPos = handsfree.data.hands['landmarks'][1][WRIST_POSITION].y;
+            console.log('right', xPos, yPos);
+            rightHand.setPosition(xPos, yPos);
         }
     }
 }
+
 
 // Quiza usar Listeners o Plugins si lo anterior no funciona
