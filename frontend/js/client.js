@@ -1,4 +1,5 @@
-const socket = new WebSocket("wss://ws-vxax7qbyya-oa.a.run.app");
+// const socket = new WebSocket("wss://ws-vxax7qbyya-oa.a.run.app");
+const socket = new WebSocket("ws://localhost:8999");
 
 const user = {
   id: null,
@@ -97,4 +98,9 @@ socket.onclose = function (event) {
 
 socket.onerror = function (error) {
   console.log(`[error] ${error.message}`);
+};
+
+window.onbeforeunload = function () {
+  const msg = IMessage(typeEnum.CLOSE, null, user.id);
+  socket.send(JSON.stringify(msg));
 };

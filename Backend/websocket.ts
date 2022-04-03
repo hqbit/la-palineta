@@ -1,8 +1,6 @@
 import express from "express";
 import * as http from "http";
 import * as WebSocket from "ws";
-import { Request, Response } from "express";
-import path from "path";
 
 enum typeEnum {
   START = 0,
@@ -147,7 +145,11 @@ function addUser(ws: WebSocket) {
 }
 
 function deleteUser(msg: IMessage) {
+  // console.log("before delete:");
+  // console.log(users.map((x) => console.log(x.id)));
   users = users.filter((x) => x.id !== msg.id);
+  // console.log("after delete:");
+  // console.log(users.map((x) => console.log(x.id)));
 }
 
 function sendMovement(msg: IMessage) {
