@@ -1,8 +1,6 @@
 import express from "express";
 import * as http from "http";
 import * as WebSocket from "ws";
-import { Request, Response } from "express";
-import path from "path";
 
 enum typeEnum {
   START = 0,
@@ -10,6 +8,7 @@ enum typeEnum {
   MOVEMENT = 2,
   MOVEMENTRESPONSE = 3,
   OPENRESPONSE = 4,
+  CLOSE = 5,
 }
 
 enum fingerEvents {
@@ -48,11 +47,10 @@ interface IMessage {
 
 interface IHands {
   leftHandFingers: boolean[];
-  leftHandStates: number[];
   leftHandPos: IPos;
   rightHandFingers: boolean[];
-  rightHandStates: number[];
   rightHandPos: IPos;
+  events: string[];
 }
 
 interface IUser {
@@ -62,10 +60,9 @@ interface IUser {
   playing: boolean;
 }
 
-const users: Array<IUser> = [];
+let users: Array<IUser> = [];
 
 let currentIdCount = 0;
-
 
 const app = express();
 
@@ -84,7 +81,7 @@ wss.on("connection", (ws: WebSocket) => {
 
     const msg = JSON.parse(message) as IMessage;
 
-    console.log("received: %s", message);
+    // console.log("received: %s", message);
 
     switch (msg.type) {
       case typeEnum.START:
@@ -92,6 +89,10 @@ wss.on("connection", (ws: WebSocket) => {
 
       case typeEnum.MOVEMENT:
         sendMovement(msg);
+        break;
+
+      case typeEnum.CLOSE:
+        deleteUser(msg);
         break;
       default:
         break;
@@ -114,18 +115,17 @@ function addUser(ws: WebSocket) {
     id,
     connection: ws,
     hands: {
-      leftHandFingers: [true, true, true, true, true],
-      leftHandStates: [],
+      leftHandFingers: [false, true, true, true, true],
       leftHandPos: {
         x: null,
         y: null,
       },
-      rightHandFingers: [true, true, true, true, true],
-      rightHandStates: [],
+      rightHandFingers: [false, true, true, true, true],
       rightHandPos: {
         x: null,
         y: null,
       },
+      events: [],
     },
     playing: false,
   };
@@ -134,7 +134,7 @@ function addUser(ws: WebSocket) {
     user.playing = true;
   }
 
-  users.concat(user);
+  users.push(user);
   const response: IMessage = {
     type: typeEnum.OPENRESPONSE,
     message: { playing: user.playing, id: user.id },
@@ -144,27 +144,82 @@ function addUser(ws: WebSocket) {
   user.connection.send(JSON.stringify(response));
 }
 
+function deleteUser(msg: IMessage) {
+  // console.log("before delete:");
+  // console.log(users.map((x) => console.log(x.id)));
+  users = users.filter((x) => x.id !== msg.id);
+  // console.log("after delete:");
+  // console.log(users.map((x) => console.log(x.id)));
+}
+
 function sendMovement(msg: IMessage) {
   const targetUser = users
     .filter((x) => x.playing === true)
     .find((x) => x.id !== msg.id);
 
-  console.log(users.filter((x) => x.playing === true));
-  if (targetUser) {
-    targetUser.id = 99999;
+  const originUser = users.find((x) => x.id === msg.id);
 
-    console.log(users);
-    // users.find(x => x.id === msg.id) = null;
+  if (targetUser) {
+    originUser.hands.leftHandPos = (msg.message as IHands).leftHandPos;
+    originUser.hands.rightHandPos = (msg.message as IHands).rightHandPos;
 
     const response: IMessage = {
       type: typeEnum.MOVEMENTRESPONSE,
-      message: msg?.message?.hands,
+      message: {
+        events: generateEvents(originUser, msg?.message),
+        leftHandPos: originUser.hands.leftHandPos,
+        rightHandPos: originUser.hands.rightHandPos,
+      },
       id: targetUser.id,
     };
+
+    originUser.hands = msg.message as IHands;
+
     console.log("sending: %s", response);
     broadcast(response);
-    // targetUser.connection.send(JSON.stringify(response));
   }
+}
+
+function generateEvents(savedUser: IUser, recievedHands: IHands) {
+  let res: string[] = [];
+  let savedHands = savedUser.hands;
+
+  for (let i = 0; i < savedHands.leftHandFingers.length; i++) {
+    const savedExtended = savedHands.leftHandFingers[i];
+    const recievedExtended = recievedHands.leftHandFingers[i];
+    if (savedExtended === false && recievedExtended === true) {
+      res.push(
+        Object.keys(fingerEvents)[Object.values(fingerEvents).indexOf(i)]
+      );
+    }
+
+    if (savedExtended === true && recievedExtended === false) {
+      res.push(
+        Object.keys(fingerEvents)[Object.values(fingerEvents).indexOf(i + 5)]
+      );
+    }
+  }
+
+  for (let i = 0; i < savedHands.rightHandFingers.length; i++) {
+    const savedExtended = savedHands.rightHandFingers[i];
+    const recievedExtended = recievedHands.rightHandFingers[i];
+
+    if (savedExtended === false && recievedExtended === true) {
+      res.push(
+        Object.keys(fingerEvents)[Object.values(fingerEvents).indexOf(i + 10)]
+      );
+    }
+
+    if (savedExtended === true && recievedExtended === false) {
+      res.push(
+        Object.keys(fingerEvents)[
+          Object.values(fingerEvents).indexOf(i + 10 + 5)
+        ]
+      );
+    }
+  }
+
+  return res;
 }
 
 function broadcast(msg: IMessage) {
