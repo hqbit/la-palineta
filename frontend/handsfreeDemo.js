@@ -140,17 +140,38 @@ punto 0 posicion
 */
 
 
+// COFE FUNCTION WHERE FLOW IS DEFINIED
+function update(landkmarks) {
+  if(thumbIsCurled(landkmarks)) {
+      // update rendered hands
+  }
+  if(indexIsCurled(landkmarks)) {
+    // update rendered hands
+  }
+  if(middleIsCurled(landkmarks)) {
+    // update rendered hands
+  }
+  if(ringeIsCurled(landkmarks)) {
+    // update rendered hands
+  }
+  if(pinkyIsCurled(landkmarks)) {
+    // update rendered hands
+  }
+}
+
+
 // Codigo para evitar que pete el programa si una mano no es visible o detectada
 if (handsfree.data.hands) { // Solo entra si existen las manos
     // Una mano
     if(handsfree.data.hands.landmarksVisible[0]) {
         // Solo entra si la mano es visible y por lo tanto existen los landmarks
+        update(handsfree.data.hands.landkmarks[0])
     }
-
 
     // La otra mano
     if(handsfree.data.hands.landmarksVisible[1]) {
         // Solo entra si la mano es visible y por lo tanto existen los landmarks
+        update(handsfree.data.hands.landkmarks[1])
     }
 }
 
