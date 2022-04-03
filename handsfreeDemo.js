@@ -92,6 +92,8 @@ MIDDLE_MCP = 9
 RINGE_MCP = 13
 PINKY_MCP = 17
 
+WRIST_POSITION = 0
+
 
 // El paramtro *landmarks* representa los landmarks de la mano: indexIsCurled(handsfree.data.hands.landmarks[1])
 function thumbIsCurled(landmarks) {
@@ -114,6 +116,23 @@ function pinkyIsCurled(landmarks) {
     return landmarks[PINKY_TIP].y < landmarks[PINKY_MCP].y;
 }
 
+function getPosition(landmarks) {
+    return landmarks[WRIST_POSITION];
+}
+
 // USAGE
-var isCurled = pinkyIsCurled(handsfree.data.hands.landmarks);
-  
+var isCurled = pinkyIsCurled(handsfree.data.hands.landmarks[0]);
+var position = getPosition(handsfree.data.hands.landmarks[1])
+var pos_x = position.x; // position.y;
+
+
+
+/* IDEA:
+En el cliente se iniciara el handsfree y se entrara en un bucle donde se ira comprobando que dedos estan extendidos,
+el estado de los dedos (5 variables booleanas) se traducira en la manos 3D. Si un dedo esta extendido, este tambien lo estara
+en el 3D. (aqui habria que ver como indicarlo al render del three.js ))
+
+Dado que es online, no sera necesario realizar ninguna mecanica de paso de dedos. Se encarga el propio jugador
+
+punto 0 posicion
+*/
