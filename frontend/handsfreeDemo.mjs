@@ -1,5 +1,11 @@
 // Inside your app
+
+console.log('hello world')
+
+
 import Handsfree from 'handsfree'
+
+
 
 //--------------- ESTO ES LA CREACION DEL OBJETO QUE DETECTARA 
 const handsfreeOBJ = new Handsfree({
@@ -139,23 +145,83 @@ Dado que es online, no sera necesario realizar ninguna mecanica de paso de dedos
 punto 0 posicion
 */
 
+// True --> Curled
+var thumbCurledState = false;
+var indexCurledState = false;
+var middleCurledState = false;
+var ringeCurledState = false;
+var pinkyCurledState = false;
+
+// True si ha cambiado
+function thumbsChangeState(thumbCurledState, landkmarks) {
+  return thumbCurledState !== thumbIsCurled(landkmarks)
+}
+function indexChangeState(indexCurledState, landkmarks) {
+  return indexCurledState !== indexIsCurled(landkmarks)
+}
+function middleChangeState(middleCurledState, landkmarks) {
+  return middleCurledState !== middleIsCurled(landkmarks)
+}
+function ringeChangeState( ringeCurledState, landkmarks) {
+  return  ringeCurledState !==  ringeIsCurled(landkmarks)
+}
+function pinkyChangeState(pinkyCurledState, landkmarks) {
+  return pinkyCurledState !== pinkyIsCurled(landkmarks)
+}
+
+
+
 
 // COFE FUNCTION WHERE FLOW IS DEFINIED
 function update(landkmarks) {
-  if(thumbIsCurled(landkmarks)) {
-      // update rendered hands
+  if(thumbsChangeState(thumbCurledState, landkmarks)) {
+    if(thumbIsCurled(landkmarks)) {
+      // render.fingerDown(...)
+    }
+    else {
+      // render.fingerUp(...)
+    }
+    thumbCurledState = ! thumbCurledState;
   }
-  if(indexIsCurled(landkmarks)) {
-    // update rendered hands
+
+  if(indexChangeState(indexCurledState, landkmarks)) {
+    if(indexIsCurled(landkmarks)) {
+      // render.fingerDown(...)
+    }
+    else {
+      // render.fingerUp(...)
+    }
+    indexCurledState = ! indexCurledState;
   }
-  if(middleIsCurled(landkmarks)) {
-    // update rendered hands
+
+  if(middleChangeState(middleCurledState, landkmarks)) {
+    if(middleIsCurled(landkmarks)) {
+      // render.fingerDown(...)
+    }
+    else {
+      // render.fingerUp(...)
+    }
+    middleCurledState = ! middleCurledState;
   }
-  if(ringeIsCurled(landkmarks)) {
-    // update rendered hands
+
+  if(ringeChangeState(ringeCurledState, landkmarks)) {
+    if(ringeIsCurled(landkmarks)) {
+      // render.fingerDown(...)
+    }
+    else {
+      // render.fingerUp(...)
+    }
+    ringeCurledState = ! ringeCurledState;
   }
-  if(pinkyIsCurled(landkmarks)) {
-    // update rendered hands
+
+  if(pinkyChangeState(pinkyCurledState, landkmarks)) {
+    if(pinkyIsCurled(landkmarks)) {
+      // render.fingerDown(...)
+    }
+    else {
+      // render.fingerUp(...)
+    }
+    pinkyCurledState = ! pinkyCurledState;
   }
 }
 
