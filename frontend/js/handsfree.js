@@ -85,6 +85,7 @@ var middleCurledState = false;
 var ringeCurledState = false;
 var pinkyCurledState = false;
 
+
 // True si ha cambiado
 function thumbsChangeState(thumbCurledState, landkmarks) {
     return thumbCurledState !== thumbIsCurled(landkmarks)
@@ -106,53 +107,18 @@ function pinkyChangeState(pinkyCurledState, landkmarks) {
     return pinkyCurledState !== pinkyIsCurled(landkmarks)
 }
 
+fingerState = [false, false, false, false, false]
 
-// COFE FUNCTION WHERE FLOW IS DEFINIED
+// CORE FUNCTION WHERE FLOW IS DEFINIED
 function update(landkmarks, handModel) {
-    if (thumbsChangeState(thumbCurledState, landkmarks)) {
-        if (!thumbIsCurled(landkmarks)) {
-            handModel.fingerDown(4);
-        } else {
-            handModel.fingerUp(4);
-        }
-        thumbCurledState = !thumbCurledState;
-    }
 
-    if (indexChangeState(indexCurledState, landkmarks)) {
-        if (!indexIsCurled(landkmarks)) {
-            handModel.fingerDown(3);
-        } else {
-            handModel.fingerUp(3);
-        }
-        indexCurledState = !indexCurledState;
-    }
+    fingerState[0] = thumbIsCurled(landkmarks);
+    fingerState[1] = indexIsCurled(landkmarks);
+    fingerState[2] = middleIsCurled(landkmarks);
+    fingerState[3] = ringeIsCurled(landkmarks);
+    fingerState[4] = pinkyIsCurled(landkmarks);
 
-    if (middleChangeState(middleCurledState, landkmarks)) {
-        if (!middleIsCurled(landkmarks)) {
-            handModel.fingerDown(2);
-        } else {
-            handModel.fingerUp(2);
-        }
-        middleCurledState = !middleCurledState;
-    }
-
-    if (ringeChangeState(ringeCurledState, landkmarks)) {
-        if (!ringeIsCurled(landkmarks)) {
-            handModel.fingerDown(1);
-        } else {
-            handModel.fingerUp(1);
-        }
-        ringeCurledState = !ringeCurledState;
-    }
-
-    if (pinkyChangeState(pinkyCurledState, landkmarks)) {
-        if (!pinkyIsCurled(landkmarks)) {
-            handModel.fingerDown(0);
-        } else {
-            handModel.fingerUp(0);
-        }
-        pinkyCurledState = !pinkyCurledState;
-    }
+    handModel.setFingersPosition(fingerState)
 }
 
 
