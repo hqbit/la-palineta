@@ -13,7 +13,7 @@ jobs:
           command: "echo Docker built"
       - run: docker images
 
-      - gcp-cloud-run/init`
+      - gcp-cloud-run/init
       
       - gcp-cloud-run/deploy:
           image: 'eu.gcr.io/uncommon2022/web'
