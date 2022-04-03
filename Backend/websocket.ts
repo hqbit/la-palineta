@@ -169,10 +169,10 @@ function sendMovement(msg: IMessage) {
       type: typeEnum.MOVEMENTRESPONSE,
       message: {
         //events: generateEvents(originUser, msg?.message),
-        leftHandFingers: originUser.hands.leftHandFingers,
-        rightHandFingers: originUser.hands.rightHandFingers,
-        leftHandPos: originUser.hands.leftHandPos,
-        rightHandPos: originUser.hands.rightHandPos,
+        leftHandFingers: originUser.hands?.leftHandFingers,
+        rightHandFingers: originUser.hands?.rightHandFingers,
+        leftHandPos: originUser.hands?.leftHandPos,
+        rightHandPos: originUser.hands?.rightHandPos,
       },
       id: targetUser.id,
     };
