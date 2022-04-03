@@ -11,26 +11,11 @@ export class Hand {
     fingersUp = [false, false, false, false, false];
 
     _animationsDown = [FINGER_1_DOWN, FINGER_2_DOWN, FINGER_3_DOWN, FINGER_4_DOWN, FINGER_5_DOWN];
-    _animationsUp   = [FINGER_1_UP, FINGER_2_UP, FINGER_3_UP, FINGER_4_UP, FINGER_5_UP];
+    _animationsUp = [FINGER_1_UP, FINGER_2_UP, FINGER_3_UP, FINGER_4_UP, FINGER_5_UP];
 
     _animate;
     _scene;
     hand;
-
-    _currentBaseAction = 'idle';
-    _allActions = [];
-    _baseActions = {
-        "1 up": { weight: 1 },
-        "2 up": { weight: 1 },
-        "3 up": { weight: 1 },
-        "4 up": { weight: 1 },
-        "5 up": { weight: 1 },
-        "1 down": { weight: 1 },
-        "2 down": { weight: 1 },
-        "3 down": { weight: 1 },
-        "4 down": { weight: 1 },
-        "5 down": { weight: 1 },
-    };
 
     constructor(side, x, y, animate, scene) {
         this.side = side;
@@ -69,30 +54,41 @@ export class Hand {
     fingerDown(finger) {
         this.fingersUp[finger] = false;
         let clip = this.animations[this._animationsDown[finger]];
-        if (clip) {
-            let action = this._mixer.clipAction(clip);
-            action.clampWhenFinished = true;
-            action.loop = THREE.LoopOnce;
-            action.play();
-            console.log(clip.name)
-        }
+
+        let oppositeClip = this.animations[this._animationsUp[finger]];
+        let oppositeAction = this._mixer.clipAction(oppositeClip);
+        oppositeAction.weight = 0;
+        oppositeAction.stop();
+
+        this.renderAction(clip, this._animationsUp[finger]);
     }
 
     fingerUp(finger) {
         this.fingersUp[finger] = true;
         let clip = this.animations[this._animationsUp[finger]];
-        if (clip) {
-            let action = this._mixer.clipAction(clip);
-            action.clampWhenFinished = true;
-            action.loop = THREE.LoopOnce;
-            action.play();
-            console.log(clip.name)
-        }
+
+        let oppositeClip = this.animations[this._animationsDown[finger]];
+        let oppositeAction = this._mixer.clipAction(oppositeClip);
+        oppositeAction.weight = 0;
+        oppositeAction.stop();
+
+        this.renderAction(clip, this._animationsUp[finger]);
     }
 
     update(mixerUpdateDelta) {
         if (this._mixer) {
             this._mixer.update(mixerUpdateDelta);
+        }
+    }
+
+    renderAction(clip) {
+        if (clip) {
+            let action = this._mixer.clipAction(clip);
+            action.weight = 1;
+            action.clampWhenFinished = true;
+            action.loop = THREE.LoopOnce;
+            action.play();
+            console.log(this.side, clip.name)
         }
     }
 }
