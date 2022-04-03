@@ -36,25 +36,6 @@ const setUpScene = () => {
     scene.add(dirLight);
 }
 
-const configureHandsFree = () => {
-    const handsfree = new Handsfree({
-        hands: {
-            enabled: true,
-            // The maximum number of hands to detect [0 - 4]
-            maxNumHands: 2,
-
-            // Minimum confidence [0 - 1] for a hand to be considered detected
-            minDetectionConfidence: 0.5,
-
-            // Minimum confidence [0 - 1] for the landmark tracker to be considered detected
-            // Higher values are more robust at the expense of higher latency
-            minTrackingConfidence: 0.5
-        }
-    })
-
-    handsfree.start()
-}
-
 const animate = () => {
     requestAnimationFrame(animate);
 

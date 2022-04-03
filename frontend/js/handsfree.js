@@ -110,7 +110,7 @@ function pinkyChangeState(pinkyCurledState, landkmarks) {
 // COFE FUNCTION WHERE FLOW IS DEFINIED
 function update(landkmarks, handModel) {
     if (thumbsChangeState(thumbCurledState, landkmarks)) {
-        if (thumbIsCurled(landkmarks)) {
+        if (!thumbIsCurled(landkmarks)) {
             handModel.fingerDown(4);
         } else {
             handModel.fingerUp(4);
@@ -119,7 +119,7 @@ function update(landkmarks, handModel) {
     }
 
     if (indexChangeState(indexCurledState, landkmarks)) {
-        if (indexIsCurled(landkmarks)) {
+        if (!indexIsCurled(landkmarks)) {
             handModel.fingerDown(3);
         } else {
             handModel.fingerUp(3);
@@ -128,7 +128,7 @@ function update(landkmarks, handModel) {
     }
 
     if (middleChangeState(middleCurledState, landkmarks)) {
-        if (middleIsCurled(landkmarks)) {
+        if (!middleIsCurled(landkmarks)) {
             handModel.fingerDown(2);
         } else {
             handModel.fingerUp(2);
@@ -137,7 +137,7 @@ function update(landkmarks, handModel) {
     }
 
     if (ringeChangeState(ringeCurledState, landkmarks)) {
-        if (ringeIsCurled(landkmarks)) {
+        if (!ringeIsCurled(landkmarks)) {
             handModel.fingerDown(1);
         } else {
             handModel.fingerUp(1);
@@ -146,7 +146,7 @@ function update(landkmarks, handModel) {
     }
 
     if (pinkyChangeState(pinkyCurledState, landkmarks)) {
-        if (pinkyIsCurled(landkmarks)) {
+        if (!pinkyIsCurled(landkmarks)) {
             handModel.fingerDown(0);
         } else {
             handModel.fingerUp(0);
@@ -163,13 +163,14 @@ export const handsFreeController = (leftHand, rightHand) => {
         // Una mano
         if (handsfree.data.hands.landmarksVisible[0]) {
             // Solo entra si la mano es visible y por lo tanto existen los landmarks
-            update(handsfree.data.hands.landkmarks[0], leftHand);
+            console.log(handsfree.data.hands['landmarks'])
+            update(handsfree.data.hands['landmarks'][0], leftHand);
         }
 
         // La otra mano
         if (handsfree.data.hands.landmarksVisible[1]) {
             // Solo entra si la mano es visible y por lo tanto existen los landmarks
-            update(handsfree.data.hands.landkmarks[1], rightHand);
+            update(handsfree.data.hands['landmarks'][1], rightHand);
         }
     }
 }
