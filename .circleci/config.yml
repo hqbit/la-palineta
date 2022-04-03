@@ -13,25 +13,20 @@ jobs:
           name: "Is it built?"
           command: "echo Docker built"
       - run: docker images
-  deploy:
-    docker:
-      - image: google/cloud-sdk
-      - gcp-gcr/gcr-auth:
-          gcloud-service-key: GOOGLE_CLOUD_KEYS
-          google-project-id: GOOGLE_PROJECT_ID
-          google-compute-zone: GOOGLE_COMPUTE_ZONE
-      - gcp-gcr/push-image:
-          google-project-id: GOOGLE_PROJECT_ID
-          registry-url: "eu.gcr.io"
-          image: $IMAGE_NAME
+
+      - cloudrun/init
       - cloudrun/deploy:
-          platform: "managed"
-          image: "eu.gcr.io/$GOOGLE_PROJECT_ID/$IMAGE_NAME"
-          service-name: "orb-gcp-cloud-run"
-          region: $GOOGLE_COMPUTE_ZONE
+          image: 'eu.gcr.io/uncommon2022/web'
+          region: europe-west6
+          service-name: web
+          unauthenticated: true
+
+      - cloudrun/deploy:
+          image: 'eu.gcr.io/uncommon2022/ws'
+          region: europe-west6
+          service-name: ws
           unauthenticated: true
 workflows:
   docker-workflow:
     jobs:
       - create-docker-images
-      - deploy
