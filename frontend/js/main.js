@@ -20,14 +20,14 @@ const setUpScene = () => {
     camera.position.x = 0.5;
     camera.rotation.x = -Math.PI / 2;
 
-    scene.background = new THREE.Color(0xa0a0a0);
+    scene.background = new THREE.Color(0xffd1dc);
     scene.fog = new THREE.Fog(0xa0a0a0, 10, 50);
 
     const hemiLight = new THREE.HemisphereLight(0xffffff, 0x444444);
-    hemiLight.position.set(0, 20, 0);
+    hemiLight.position.set(0, 40, 0);
     scene.add(hemiLight);
 
-    const dirLight = new THREE.DirectionalLight(0xffffff);
+    const dirLight = new THREE.DirectionalLight(0xC4C0C0, 0.5);
     dirLight.position.set(3, 10, 10);
     dirLight.castShadow = true;
     dirLight.shadow.camera.top = 2;
@@ -51,7 +51,7 @@ const animate = () => {
     rightHandOpponent.update(mixerUpdateDelta, 'rightHandOpponent');
 
     handsFreeController(leftHandPlayer, rightHandPlayer);
-   // sendToServer(leftHandPlayer, rightHandPlayer);
+    sendToServer(leftHandPlayer, rightHandPlayer);
 
     renderer.render(scene, camera);
 };
@@ -61,5 +61,5 @@ setUpScene()
 const leftHandPlayer = new Hand('LEFT', -0.5, 0.5, animate, scene);
 const rightHandPlayer = new Hand('RIGHT', 0.5, 0.5, animate, scene);
 
-export const leftHandOpponent = new Hand('LEFT', 0.7, 0.2, animate, scene, true);
-export const rightHandOpponent = new Hand('RIGHT', 0.3, 0.2, animate, scene, true);
+export const leftHandOpponent = new Hand('LEFT', 500, 0.2, animate, scene, true);
+export const rightHandOpponent = new Hand('RIGHT', 500, 0.2, animate, scene, true);

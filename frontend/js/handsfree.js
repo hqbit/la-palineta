@@ -135,6 +135,8 @@ export const handsFreeController = (leftHand, rightHand) => {
             const yPos = handsfree.data.hands['landmarks'][0][WRIST_POSITION].y;
 
             leftHand.setPosition(xPos, yPos);
+        } else {
+            leftHand.hide();
         }
 
         // La otra mano
@@ -145,6 +147,8 @@ export const handsFreeController = (leftHand, rightHand) => {
             const xPos = handsfree.data.hands['landmarks'][1][WRIST_POSITION].x;
             const yPos = handsfree.data.hands['landmarks'][1][WRIST_POSITION].y;
             rightHand.setPosition(xPos, yPos);
+        } else {
+            rightHand.hide();
         }
     }
 }
