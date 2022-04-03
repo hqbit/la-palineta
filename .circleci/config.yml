@@ -10,7 +10,7 @@ jobs:
       - run: docker tag uncommon2022/web eu.gcr.io/uncommon2022/web
       - run:
           name: "Is it built?"
-          command: "echo Docker built"
+          command: "echo Docker built "
       - run: docker images
 
       - run:
