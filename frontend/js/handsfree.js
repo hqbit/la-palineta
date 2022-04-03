@@ -107,16 +107,16 @@ function pinkyChangeState(pinkyCurledState, landkmarks) {
     return pinkyCurledState !== pinkyIsCurled(landkmarks)
 }
 
-fingerState = [false, false, false, false, false]
 
 // CORE FUNCTION WHERE FLOW IS DEFINIED
 function update(landkmarks, handModel) {
-
-    fingerState[0] = thumbIsCurled(landkmarks);
-    fingerState[1] = indexIsCurled(landkmarks);
-    fingerState[2] = middleIsCurled(landkmarks);
-    fingerState[3] = ringeIsCurled(landkmarks);
-    fingerState[4] = pinkyIsCurled(landkmarks);
+    let fingerState = [
+        pinkyIsCurled(landkmarks),
+        ringeIsCurled(landkmarks),
+        middleIsCurled(landkmarks),
+        indexIsCurled(landkmarks),
+        thumbIsCurled(landkmarks),
+    ];
 
     handModel.setFingersPosition(fingerState)
 }

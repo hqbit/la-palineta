@@ -51,7 +51,7 @@ const animate = () => {
     rightHandOpponent.update(mixerUpdateDelta, 'rightHandOpponent');
 
     handsFreeController(leftHandPlayer, rightHandPlayer);
-    sendToServer(leftHandPlayer, rightHandPlayer);
+   // sendToServer(leftHandPlayer, rightHandPlayer);
 
     renderer.render(scene, camera);
 };
@@ -63,48 +63,3 @@ const rightHandPlayer = new Hand('RIGHT', 0.5, 0.5, animate, scene);
 
 export const leftHandOpponent = new Hand('LEFT', 0.7, 0.2, animate, scene, true);
 export const rightHandOpponent = new Hand('RIGHT', 0.3, 0.2, animate, scene, true);
-
-document.addEventListener('keydown', function (event) {
-    switch (event.key) {
-        case "q":
-            leftHandPlayer.fingerDown(0);
-            rightHandPlayer.fingerDown(0);
-            break;
-        case "1":
-            leftHandPlayer.fingerUp(0);
-            rightHandPlayer.fingerUp(0);
-            break;
-        case "w":
-            leftHandPlayer.fingerDown(1);
-            rightHandPlayer.fingerDown(1);
-            break;
-        case "2":
-            leftHandPlayer.fingerUp(1);
-            rightHandPlayer.fingerUp(1);
-            break;
-        case "e":
-            leftHandPlayer.fingerDown(2);
-            rightHandPlayer.fingerDown(2);
-            break;
-        case "3":
-            leftHandPlayer.fingerUp(2);
-            rightHandPlayer.fingerUp(2);
-            break;
-        case "r":
-            leftHandPlayer.fingerDown(3);
-            rightHandPlayer.fingerDown(3);
-            break;
-        case "4":
-            leftHandPlayer.fingerUp(3);
-            rightHandPlayer.fingerUp(3);
-            break;
-        case "t":
-            leftHandPlayer.fingerDown(4);
-            rightHandPlayer.fingerDown(4);
-            break;
-        case "5":
-            leftHandPlayer.fingerUp(4);
-            rightHandPlayer.fingerUp(4);
-            break;
-    }
-});
