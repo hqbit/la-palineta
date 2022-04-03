@@ -1,6 +1,6 @@
 import {leftHandOpponent, rightHandOpponent} from "./main.js";
-//const socket = new WebSocket("wss://ws-vxax7qbyya-oa.a.run.app");
-const socket = new WebSocket("ws://localhost:8999");
+const socket = new WebSocket("wss://ws-vxax7qbyya-oa.a.run.app");
+//const socket = new WebSocket("ws://localhost:8999");
 
 const user = {
   id: null,
