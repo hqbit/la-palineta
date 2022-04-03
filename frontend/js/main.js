@@ -9,7 +9,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 const loader = new GLTFLoader();
-let hand, skeleton, mixer, clock;
+let hand, skeleton, mixer, clock, animations;
 
 const setUpScene = () => {
     clock = new THREE.Clock();
@@ -55,17 +55,51 @@ loader.load('../models/hand/left.glb', function (gltf) {
     skeleton.visible = false;
     scene.add(skeleton);
 
-    const animations = gltf.animations;
+    animations = gltf.animations;
     mixer = new THREE.AnimationMixer(hand);
     console.log(animations)
 
-    let clip = animations[0];
-    let action = mixer.clipAction(clip);
-    action.play();
-
-    clip = animations[1];
-    action = mixer.clipAction(clip);
-    action.play();
-
     animate();
+});
+
+document.addEventListener('keydown', function(event) {
+    let clip;
+
+    switch (event.key){
+        case "q":
+            clip = animations[FINGER_1_DOWN];
+            break;
+        case "1":
+            clip = animations[FINGER_1_UP];
+            break;
+        case "w":
+            clip = animations[FINGER_2_DOWN];
+            break;
+        case "2":
+            clip = animations[FINGER_2_UP];
+            break;
+        case "e":
+            clip = animations[FINGER_3_DOWN];
+            break;
+        case "3":
+            clip = animations[FINGER_3_UP];
+            break;
+        case "r":
+            clip = animations[FINGER_4_DOWN];
+            break;
+        case "4":
+            clip = animations[FINGER_4_UP];
+            break;
+        case "t":
+            clip = animations[FINGER_5_DOWN];
+            break;
+        case "5":
+            clip = animations[FINGER_5_UP];
+            break;
+    }
+
+    let action = mixer.clipAction(clip);
+    action.repetitions = 1;
+    action.play();
+    console.log(clip.name)
 });
