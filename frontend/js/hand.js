@@ -55,6 +55,7 @@ export class Hand {
     }
 
     setFingersPosition(fingers) {
+        console.log(fingers);
         for (let i = 0; i < fingers.length; i++) {
             if (fingers[i] && !this.fingersUp[i]) {
                 this.fingerUp(i);

@@ -77,6 +77,8 @@ socket.onmessage = function (event) {
         opponent.hands.events = msg.message.events;
         opponent.hands.leftHandPos = msg.message.leftHandPos;
         opponent.hands.rightHandPos = msg.message.rightHandPos;
+        opponent.hands.leftHandFingers = msg.message.leftHandFingers;
+        opponent.hands.rightHandFingers = msg.message.rightHandFingers;
         updateFromServer(leftHandOpponent, rightHandOpponent);
       }
       break;
@@ -111,6 +113,7 @@ export const sendToServer = (leftHand, rightHand) => {
   user.hands.leftHandPos.x = leftHand.x;
   user.hands.leftHandPos.y = leftHand.y;
   user.hands.leftHandFingers = leftHand.fingersUp;
+  console.log('Sending left hand: ', leftHand.fingersUp);
 
   user.hands.rightHandPos.x = rightHand.x;
   user.hands.rightHandPos.y = rightHand.y;
