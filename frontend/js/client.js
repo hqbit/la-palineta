@@ -113,7 +113,6 @@ export const sendToServer = (leftHand, rightHand) => {
   user.hands.leftHandPos.x = leftHand.x;
   user.hands.leftHandPos.y = leftHand.y;
   user.hands.leftHandFingers = leftHand.fingersUp;
-  console.log('Sending left hand: ', leftHand.fingersUp);
 
   user.hands.rightHandPos.x = rightHand.x;
   user.hands.rightHandPos.y = rightHand.y;
