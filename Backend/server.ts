@@ -13,6 +13,6 @@ app.get("/", (req: Request, res: Response) => {
 const publicDirectoryPath = path.join(__dirname, "/../frontend");
 app.use(express.static(publicDirectoryPath));
 
-app.listen(5000, () => {
+app.listen(process.env.PORT || 8999, () => {
   console.log("Application started on port 5000!");
 });

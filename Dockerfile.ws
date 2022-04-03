@@ -12,7 +12,7 @@ RUN npm install
 # Bundle app
 COPY . .
 
-EXPOSE 5000 8999
+EXPOSE 8999
 
 
-CMD ["ts-node", "Backend/server.ts"]
+CMD ["ts-node", "Backend/websocket.ts"]
