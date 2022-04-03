@@ -45,7 +45,6 @@ export class Hand {
 
         this.animations = gltf.animations;
         this._mixer = new THREE.AnimationMixer(this.hand);
-        console.log(this.animations)
 
         this._animate();
     }
