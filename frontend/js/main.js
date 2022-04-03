@@ -1,5 +1,5 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.121.1/build/three.module.js";
-import {GLTFLoader} from "https://cdn.jsdelivr.net/npm/three@0.121.1/examples/jsm/loaders/GLTFLoader.js";
+import {Hand} from "./hand.js";
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -8,8 +8,7 @@ const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
-const loader = new GLTFLoader();
-let hand, skeleton, mixer, clock, animations;
+let clock;
 
 const setUpScene = () => {
     clock = new THREE.Clock();
@@ -40,66 +39,59 @@ const animate = () => {
     requestAnimationFrame(animate);
 
     const mixerUpdateDelta = clock.getDelta();
-    mixer.update(mixerUpdateDelta);
+
+    leftHandPlayer.update(mixerUpdateDelta);
+    rightHandPlayer.update(mixerUpdateDelta);
+
     renderer.render(scene, camera);
 };
 
 setUpScene()
 
-loader.load('../models/hand/left.glb', function (gltf) {
-    hand = gltf.scene;
-    hand.rotation.y = -Math.PI / 2;
-    scene.add(hand);
+const leftHandPlayer = new Hand('LEFT', -0.2, 0.2, animate, scene);
+const rightHandPlayer = new Hand('RIGHT', 0.2, 0.2, animate, scene);
 
-    skeleton = new THREE.SkeletonHelper(hand);
-    skeleton.visible = false;
-    scene.add(skeleton);
-
-    animations = gltf.animations;
-    mixer = new THREE.AnimationMixer(hand);
-    console.log(animations)
-
-    animate();
-});
-
-document.addEventListener('keydown', function(event) {
-    let clip;
-
-    switch (event.key){
+document.addEventListener('keydown', function (event) {
+    switch (event.key) {
         case "q":
-            clip = animations[FINGER_1_DOWN];
+            leftHandPlayer.fingerDown(0);
+            rightHandPlayer.fingerDown(0);
             break;
         case "1":
-            clip = animations[FINGER_1_UP];
+            leftHandPlayer.fingerUp(0);
+            rightHandPlayer.fingerUp(0);
             break;
         case "w":
-            clip = animations[FINGER_2_DOWN];
+            leftHandPlayer.fingerDown(1);
+            rightHandPlayer.fingerDown(1);
             break;
         case "2":
-            clip = animations[FINGER_2_UP];
+            leftHandPlayer.fingerUp(1);
+            rightHandPlayer.fingerUp(1);
             break;
         case "e":
-            clip = animations[FINGER_3_DOWN];
+            leftHandPlayer.fingerDown(2);
+            rightHandPlayer.fingerDown(2);
             break;
         case "3":
-            clip = animations[FINGER_3_UP];
+            leftHandPlayer.fingerUp(2);
+            rightHandPlayer.fingerUp(2);
             break;
         case "r":
-            clip = animations[FINGER_4_DOWN];
+            leftHandPlayer.fingerDown(3);
+            rightHandPlayer.fingerDown(3);
             break;
         case "4":
-            clip = animations[FINGER_4_UP];
+            leftHandPlayer.fingerUp(3);
+            rightHandPlayer.fingerUp(3);
             break;
         case "t":
-            clip = animations[FINGER_5_DOWN];
+            leftHandPlayer.fingerDown(4);
+            rightHandPlayer.fingerDown(4);
             break;
         case "5":
-            clip = animations[FINGER_5_UP];
+            leftHandPlayer.fingerUp(4);
+            rightHandPlayer.fingerUp(4);
             break;
     }
-
-    let action = mixer.clipAction(clip);
-    action.repetitions = 1;
-    action.play();
-    console.log(clip.name)
 });
