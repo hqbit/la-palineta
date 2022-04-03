@@ -61,5 +61,5 @@ setUpScene()
 const leftHandPlayer = new Hand('LEFT', -0.5, 0.5, animate, scene);
 const rightHandPlayer = new Hand('RIGHT', 0.5, 0.5, animate, scene);
 
-export const leftHandOpponent = new Hand('LEFT', 0.7, 0.2, animate, scene, true);
-export const rightHandOpponent = new Hand('RIGHT', 0.3, 0.2, animate, scene, true);
+export const leftHandOpponent = new Hand('LEFT', 500, 0.2, animate, scene, true);
+export const rightHandOpponent = new Hand('RIGHT', 500, 0.2, animate, scene, true);

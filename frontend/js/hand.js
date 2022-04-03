@@ -55,19 +55,11 @@ export class Hand {
     }
 
     setFingersPosition(fingers) {
-        //if (fingers[0] !== this.fingersUp[0] || fingers[1] !== this.fingersUp[1] || fingers[2] !== this.fingersUp[2] || fingers[3] !== this.fingersUp[3] || fingers[4] !== this.fingersUp[4]) {
-            console.log(fingers);
-            console.log(this.fingersUp);
-            console.log('FINGERS CHANGED')
-            console.log('========================')
-        //}
         for (let i = 0; i < fingers.length; i++) {
             if (fingers[i] && !this.fingersUp[i]) {
                 this.fingerUp(i);
-                console.log("finger up");
             } else if (!fingers[i] && this.fingersUp[i]) {
                 this.fingerDown(i);
-                console.log("finger down");
             }
         }
         this.fingersUp = fingers;
@@ -117,5 +109,9 @@ export class Hand {
             this.hand.position.z = this.y = y - 0.3;
         else
             this.hand.position.z = this.y = y;
+    }
+
+    hide() {
+        this.hand.position.x = this.x = 500;
     }
 }
