@@ -145,6 +145,13 @@ Dado que es online, no sera necesario realizar ninguna mecanica de paso de dedos
 punto 0 posicion
 */
 
+// True --> Curled
+var thumbCurledState = false;
+var indexCurledState = false;
+var middleCurledState = false;
+var ringeCurledState = false;
+var pinkyCurledState = false;
+
 // True si ha cambiado
 function thumbsChangeState(thumbCurledState, landkmarks) {
   return thumbCurledState !== thumbIsCurled(landkmarks)
@@ -162,12 +169,7 @@ function pinkyChangeState(pinkyCurledState, landkmarks) {
   return pinkyCurledState !== pinkyIsCurled(landkmarks)
 }
 
-// True --> Curled
-var thumbCurledState = false;
-var indexCurledState = false;
-var middleCurledState = false;
-var ringeCurledState = false;
-var pinkyCurledState = false;
+
 
 
 // COFE FUNCTION WHERE FLOW IS DEFINIED
