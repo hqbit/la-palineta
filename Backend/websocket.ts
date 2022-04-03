@@ -115,12 +115,12 @@ function addUser(ws: WebSocket) {
     id,
     connection: ws,
     hands: {
-      leftHandFingers: [false, true, true, true, true],
+      leftHandFingers: [true, true, true, true, true],
       leftHandPos: {
         x: null,
         y: null,
       },
-      rightHandFingers: [false, true, true, true, true],
+      rightHandFingers: [true, true, true, true, true],
       rightHandPos: {
         x: null,
         y: null,
@@ -168,7 +168,7 @@ function sendMovement(msg: IMessage) {
     const response: IMessage = {
       type: typeEnum.MOVEMENTRESPONSE,
       message: {
-        events: generateEvents(originUser, msg?.message),
+        //events: generateEvents(originUser, msg?.message),
         leftHandFingers: originUser.hands.leftHandFingers,
         rightHandFingers: originUser.hands.rightHandFingers,
         leftHandPos: originUser.hands.leftHandPos,
