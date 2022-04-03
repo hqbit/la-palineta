@@ -1,18 +1,18 @@
 version: 2.1
 jobs:
-  build:
+  create-docker-image:
     machine: true
     steps:
       - checkout
       # Build 
       - run: docker build -f Dockerfile.ws . -t uncommon2022/ws
       - run: docker tag uncommon2022/ws eu.gcr.io/uncommon2022/ws
-      - run: docker push eu.gcr.io/uncommon2022/ws
-      - run: gcloud run deploy --image eu.gcr.io/uncommon2022/ws
+      - run:
+        name: "Is it built?"
+        command: "echo Docker built"
+      - run: docker images
       
-  deploy:
-    docker:
-      - image: google/cloud-sdk
-        auth:
-          username: $USER
-          password: $PASS
+workflows:
+  say-hello-workflow:
+    jobs:
+      - create-docker-image

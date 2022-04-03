@@ -163,27 +163,28 @@ function sendMovement(msg: IMessage) {
     if (originUser?.hands) {
       originUser.hands.leftHandPos = (msg.message as IHands).leftHandPos;
       originUser.hands.rightHandPos = (msg.message as IHands).rightHandPos;
+      
+      
+      const response: IMessage = {
+        type: typeEnum.MOVEMENTRESPONSE,
+        message: {
+          //events: generateEvents(originUser, msg?.message),
+          leftHandFingers: originUser.hands?.leftHandFingers,
+          rightHandFingers: originUser.hands?.rightHandFingers,
+          leftHandPos: originUser.hands?.leftHandPos,
+          rightHandPos: originUser.hands?.rightHandPos,
+        },
+        id: targetUser.id,
+      };
+      
+      originUser.hands = msg.message as IHands;
+      
+      console.log("sending: %s", response);
+      broadcast(response);
     }
-
-    const response: IMessage = {
-      type: typeEnum.MOVEMENTRESPONSE,
-      message: {
-        //events: generateEvents(originUser, msg?.message),
-        leftHandFingers: originUser.hands.leftHandFingers,
-        rightHandFingers: originUser.hands.rightHandFingers,
-        leftHandPos: originUser.hands.leftHandPos,
-        rightHandPos: originUser.hands.rightHandPos,
-      },
-      id: targetUser.id,
-    };
-
-    originUser.hands = msg.message as IHands;
-
-    console.log("sending: %s", response);
-    broadcast(response);
   }
 }
-
+  
 function generateEvents(savedUser: IUser, recievedHands: IHands) {
   let res: string[] = [];
   let savedHands = savedUser.hands;
