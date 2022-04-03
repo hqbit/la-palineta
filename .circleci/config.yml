@@ -13,8 +13,16 @@ jobs:
           name: "Is it built?"
           command: "echo Docker built"
       - run: docker images
+  deploy:
+    docker:
+      - image: google/cloud-sdk
+      - gcp-gcr/gcr-auth:
+          gcloud-service-key: GOOGLE_CLOUD_KEYS
+          google-project-id: GOOGLE_PROJECT_ID
+          google-compute-zone: GOOGLE_COMPUTE_ZONE
 
 workflows:
-  say-hello-workflow:
+  docker-workflow:
     jobs:
       - create-docker-images
+      - deploy
