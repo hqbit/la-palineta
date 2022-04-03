@@ -13,14 +13,15 @@ jobs:
           command: "echo Docker built"
       - run: docker images
 
-      - cloudrun/init
-      - cloudrun/deploy:
+      - gcp-cloud-run/init`
+      
+      - gcp-cloud-run/deploy:
           image: 'eu.gcr.io/uncommon2022/web'
           region: europe-west6
           service-name: web
           unauthenticated: true
 
-      - cloudrun/deploy:
+      - gcp-cloud-run/deploy:
           image: 'eu.gcr.io/uncommon2022/ws'
           region: europe-west6
           service-name: ws
