@@ -1,5 +1,6 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.121.1/build/three.module.js";
 import {Hand} from "./hand.js";
+import {handsFreeController} from "./handsfree.js";
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -35,6 +36,25 @@ const setUpScene = () => {
     scene.add(dirLight);
 }
 
+const configureHandsFree = () => {
+    const handsfree = new Handsfree({
+        hands: {
+            enabled: true,
+            // The maximum number of hands to detect [0 - 4]
+            maxNumHands: 2,
+
+            // Minimum confidence [0 - 1] for a hand to be considered detected
+            minDetectionConfidence: 0.5,
+
+            // Minimum confidence [0 - 1] for the landmark tracker to be considered detected
+            // Higher values are more robust at the expense of higher latency
+            minTrackingConfidence: 0.5
+        }
+    })
+
+    handsfree.start()
+}
+
 const animate = () => {
     requestAnimationFrame(animate);
 
@@ -44,12 +64,15 @@ const animate = () => {
     rightHandPlayer.update(mixerUpdateDelta);
 
     renderer.render(scene, camera);
+
+    handsFreeController(leftHandPlayer, rightHandPlayer);
 };
 
 setUpScene()
 
 const leftHandPlayer = new Hand('LEFT', -0.2, 0.2, animate, scene);
 const rightHandPlayer = new Hand('RIGHT', 0.2, 0.2, animate, scene);
+
 
 document.addEventListener('keydown', function (event) {
     switch (event.key) {
