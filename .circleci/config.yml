@@ -8,8 +8,8 @@ jobs:
       - run: docker build -f Dockerfile.ws . -t uncommon2022/ws
       - run: docker tag uncommon2022/ws eu.gcr.io/uncommon2022/ws
       - run:
-        name: "Is it built?"
-        command: "echo Docker built"
+          name: "Is it built?"
+          command: "echo Docker built"
       - run: docker images
       
 workflows:
