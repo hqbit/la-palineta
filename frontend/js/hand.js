@@ -104,11 +104,11 @@ export class Hand {
     }
 
     setPosition(x, y) {
-        this.hand.position.x = this.x = 1 - x;
+        this.hand.position.x = this.x += ((1 - x) - this.x) * 0.1;
         if (this.rotated)
-            this.hand.position.z = this.y = y - 0.3;
+            this.hand.position.z = this.y += ((y - 0.3) - this.y) * 0.1;
         else
-            this.hand.position.z = this.y = y;
+            this.hand.position.z = this.y += (y - this.y) * 0.1;
     }
 
     hide() {
