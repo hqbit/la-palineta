@@ -1,17 +1,14 @@
 version: 2.1
-
-# Define a job to be invoked later in a workflow.
-# See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
   build:
     machine: true
     steps:
       - checkout
       # Build 
-      - run docker build -f Dockerfile.ws . -t uncommon2022/ws
-      - run docker tag uncommon2022/ws eu.gcr.io/uncommon2022/ws
-      - run docker push eu.gcr.io/uncommon2022/ws
-      - run gcloud run deploy --image eu.gcr.io/uncommon2022/ws
+      - run: docker build -f Dockerfile.ws . -t uncommon2022/ws
+      - run: docker tag uncommon2022/ws eu.gcr.io/uncommon2022/ws
+      - run: docker push eu.gcr.io/uncommon2022/ws
+      - run: gcloud run deploy --image eu.gcr.io/uncommon2022/ws
       
   deploy:
     docker:
